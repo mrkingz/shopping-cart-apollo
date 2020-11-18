@@ -1,5 +1,5 @@
 import { Stack, Box, Text, Image, Button } from '@chakra-ui/react'
-import { ProductType } from '../@types'
+import { ProductType } from '../../@types'
 import { memo } from 'react'
 
 export type ProductProps = {

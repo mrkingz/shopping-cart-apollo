@@ -17,3 +17,8 @@ export type OptionsType = {
     id: number
     value: string
 }
+
+export type CartItemType = {
+    quantity: number
+    product: ProductType
+}

@@ -1,8 +1,8 @@
 import { Stack, Text, Box, useDisclosure } from '@chakra-ui/react'
-import { ProductType } from '../@types'
-import { AppDrawer, Products, NavBar } from '../components'
+import { CartItemType, ProductType } from '../@types'
+import { AppDrawer, Products, NavBar, Cart } from '../components'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 const Index = () => {
 
@@ -19,10 +19,10 @@ const Index = () => {
       }]
     },
     {
-      id: 1,
-      title: 'Cream',
+      id: 2,
+      title: 'Body Cream',
       image_url: '',
-      price: 500,
+      price: 800,
       product_options: [{
         title: '',
         prefix: '',
@@ -30,10 +30,10 @@ const Index = () => {
       }]
     },
     {
-      id: 1,
-      title: 'Cream',
+      id: 3,
+      title: 'Tooth Brush',
       image_url: '',
-      price: 500,
+      price: 200,
       product_options: [{
         title: '',
         prefix: '',
@@ -42,12 +42,36 @@ const Index = () => {
     }
   ]
 
+  const currencyList = ['NGN', 'USD', 'GBP']
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [cartItems, setCartItems] = useState<CartItemType[]>([])
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('NGN')
+  const [currencies, setCurrencies] = useState<string[]>(currencyList)
+
+  const updateQuantity = (product: ProductType, update?: number) => {
+
+    // Check if product exist in the cart
+    const index = cartItems.findIndex(({ product: { id }}) => id === product.id)
+    if (index > -1) {
+      const items = [...cartItems]
+      items[index].quantity += update || 1 // increment/decrement quantity
+
+      items[index].quantity === 0
+        ? items.splice(index, 1) 
+        : items.splice(index, 1, items[index])
+
+      setCartItems(items)
+    } else {
+      setCartItems(() => [...cartItems, { product, currency: selectedCurrency,  quantity: 1 }])
+    }
+
+  }
 
   return (
     <Box>
       <Box>
-        <NavBar cartItemsCount={0} openDrawer={() => setIsOpen(() => !isOpen)} />
+        <NavBar cartItemsCount={cartItems.length} openDrawer={() => setIsOpen(() => !isOpen)} />
       </Box>
 
       <Box h="10rem" background="white">
@@ -55,10 +79,18 @@ const Index = () => {
       </Box>
       <Stack px={[4, 10]} py={8} background="lightgrey" minHeight="100vh">
         <Box>
-          <Products products={products} />
+          <Products products={products} addProductToCart={updateQuantity}/>
         </Box>
 
-        <AppDrawer isOpen={isOpen} onClose={() => setIsOpen(() => !isOpen)} />
+        <AppDrawer 
+          selectedCurrency={selectedCurrency} 
+          selectCurrency={setSelectedCurrency} 
+          currencies={currencies} 
+          isOpen={isOpen} 
+          onClose={() => setIsOpen(() => !isOpen)}
+        > 
+          <Cart selectedCurrency={selectedCurrency} items={cartItems} updateQuantity={updateQuantity}/>
+        </AppDrawer>
       </Stack>
     </Box>
   )
