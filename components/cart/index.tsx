@@ -2,6 +2,8 @@ import { Box, Button, Stack, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { CartItemType, ProductType } from '../../@types'
 import CartItem from './CartItem'
+import CurrencySymbol from '../CurrencySymbol'
+
 
 export type CartItemsProps = {
     items: CartItemType[]
@@ -40,7 +42,10 @@ const CartItems = ({ items, selectedCurrency, updateQuantity }: CartItemsProps) 
             <Stack spacing={2} paddingTop={2} borderTop={`2px solid grey`}>
                 <Stack justify="space-between" direction="row">
                     <Text>Subtotal</Text>
-                    <Text>{`${selectedCurrency} ${totalPrice}`}</Text>
+                    <Stack spacing={.5} direction="row">
+                        <CurrencySymbol code={selectedCurrency} />
+                        <Text>{totalPrice}</Text>
+                    </Stack>
                 </Stack>
 
                 <Button color="black" background="white" border={`1px solid grey`} rounded="xs" size="sm" _focus={{outline: 'none'}}>

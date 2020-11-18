@@ -2,6 +2,7 @@ import { Flex, Stack, Text, ButtonGroup, Button, Divider, Box, Image } from '@ch
 import { ProductType } from "../../@types";
 import { FiPlus, FiMinus, } from 'react-icons/fi'
 import { MdClose } from 'react-icons/md'
+import CurrencySymbol from '../CurrencySymbol'
 
 export type CartItemProps = {
     quantity: number
@@ -28,9 +29,10 @@ const CartItem = (props: CartItemProps) => {
                         <Button size="xs" background="transparent" onClick={() => updateQuantity(props.product, 1)}><FiPlus size={10} /></Button>
                     </ButtonGroup>
 
-                    <Box>
-                    <Text>{`${selectedCurrency} ${quantity * price }`}</Text>
-                    </Box>
+                    <Stack spacing={.5} direction="row">
+                        <CurrencySymbol code={selectedCurrency} />
+                        <Text>{quantity * price}</Text>
+                    </Stack>
                 </Stack>
             </Stack>
 

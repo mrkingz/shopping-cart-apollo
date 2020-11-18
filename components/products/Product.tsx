@@ -1,6 +1,7 @@
 import { Stack, Box, Text, Image, Button } from '@chakra-ui/react'
 import { ProductType } from '../../@types'
 import { memo } from 'react'
+import CurrencySymbol from '../CurrencySymbol'
 
 export type ProductProps = {
     addToCart: () => void
@@ -20,9 +21,13 @@ const Product = (props:  ProductProps) => {
                     {title}
                 </Text>
 
-                <Text>
-                    {price}
-                </Text>
+                <Stack direction="row" spacing={0.5}>
+                    <Text paddingRight={1}>From</Text>
+                    <Box>
+                        <CurrencySymbol code='USD' />
+                    </Box>
+                    <Text>{price}</Text>
+                </Stack>
             </Stack>
                 
             <Button 

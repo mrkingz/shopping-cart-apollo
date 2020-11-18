@@ -1,19 +1,12 @@
-import React from 'react'
-import { Box, BoxProps } from '@chakra-ui/core'
-const CurrencyIcon = ({
-	shortCode,
-	children,
-	afterText,
-	fontSize,
-	renderSymbol,
-	...others
+//@ts-nocheck
+import { memo } from 'react'
+import { Text, TextProps } from '@chakra-ui/react'
+
+const CurrencySymbol = ({
+	code, ...others
 }: {
-	shortCode?: string
-	children?: any
-	afterText?: boolean
-	fontSize?: number | string
-	renderSymbol?: (symbol: any) => React.ReactNode
-} & BoxProps) => {
+	code: string
+} & TextProps) => {
 	const currencySymbols = {
 		NGN: {
 			html: <span>&#8358;</span>
@@ -136,32 +129,10 @@ const CurrencyIcon = ({
 			html: <span>GH&#8373;</span>
 		}
 	}
-	const symbol = currencySymbols[shortCode || '']
-	return symbol ? (
-		<>
-			{!afterText ? (
-				<Box as="span" display="inline-flex" {...others}>
-					{renderSymbol ? renderSymbol(symbol.html) : symbol.html} {children}
-				</Box>
-			) : (
-				<Box as="span" {...others}>
-					{children}
-					{renderSymbol ? renderSymbol(symbol.html) : symbol.html}
-				</Box>
-			)}
-		</>
-	) : (
-		<Box display="inline-flex" {...others}>
-			{!afterText ? (
-				<>
-					{shortCode} {children}
-				</>
-			) : (
-				<>
-					{children} {shortCode}
-				</>
-			)}
-		</Box>
+	return (
+		<Text {...others}>
+			{currencySymbols[code].html}
+		</Text>
 	)
 }
-export default React.memo(CurrencyIcon)
+export default memo(CurrencySymbol)
