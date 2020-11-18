@@ -1,17 +1,17 @@
 import {
   Box,
+  Button, 
   Drawer,
-  DrawerHeader,
-  DrawerFooter,
   DrawerBody,
-  DrawerContent,
+  DrawerContent, 
+  DrawerHeader,
   DrawerOverlay,
-  Stack, 
-  Text,
-  Select,
-  Button
+  Select, 
+  Stack,
+  Text
 } from '@chakra-ui/react'
-import { FC, useMemo, useState } from 'react'
+import { getColor } from '../lib'
+import { FC, useMemo } from 'react'
 import { MdClose } from 'react-icons/md'
 
 
@@ -32,18 +32,19 @@ const AppDrawer: FC<DrawerProps> = ({ children, isOpen, onClose, currencies, sel
             onClose={onClose}
         >
         <DrawerOverlay>
-          <DrawerContent padding={4} background="lightgrey">
+          <DrawerContent padding={4} background={getColor('grey-100')}>
             <DrawerHeader p={0}>
               <Stack flex={8} direction="row">
                 <Box>
-                  <Button onClick={onClose} size="xs" flex={1} padding={1} rounded="full" border={`1px solid lightgrey`} _focus={{outline: 'none'}}>
-                      <MdClose size={16} color="red" />
+                  <Button onClick={onClose} size="xs" flex={1} padding={1} rounded="full" border={`1px solid ${getColor('grey-500')}`} _focus={{outline: 'none'}}>
+                      <MdClose size={16} color={getColor('grey-500')} />
                   </Button>
                 </Box>
                 <Box textAlign="center" flex={6}>
                   <Text>Your Cart</Text>
                 </Box>
               </Stack>
+              
               <Stack justify="flex-start" mt={4}>
                 <Box width="40%" >
                   <Select 

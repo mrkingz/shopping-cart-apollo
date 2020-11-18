@@ -32,6 +32,7 @@ const Product = (props:  ProductProps) => {
                 
             <Button 
                 onClick={addToCart} 
+                size="sm"
                 width="auto" 
                 background="black" 
                 color="whitesmoke" 

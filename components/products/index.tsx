@@ -18,8 +18,8 @@ const Products = (props: ProductListProps) => {
             {
                 products.map((product: ProductType, index) => (
                     useMemo(() => (
-                        <Box key={`products_{index}`}> 
-                                <Product product={product} addToCart={() => addProductToCart(product)} />
+                        <Box key={`products_${index}`}> 
+                            <Product product={product} addToCart={() => addProductToCart(product)} />
                         </Box>
                     ), [products])
                 ))

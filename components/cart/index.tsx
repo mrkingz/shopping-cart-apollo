@@ -8,10 +8,11 @@ import CurrencySymbol from '../CurrencySymbol'
 export type CartItemsProps = {
     items: CartItemType[]
     selectedCurrency: string
-    updateQuantity: (product: ProductType, update?: number) => void
+     removeItemFromCart: (id: number) => void
+    updateItemQuantity: (product: ProductType, update?: number) => void
 }
 
-const CartItems = ({ items, selectedCurrency, updateQuantity }: CartItemsProps) => {
+const CartItems = ({ items, selectedCurrency,  removeItemFromCart, updateItemQuantity }: CartItemsProps) => {
 
     const [totalPrice, setTotalPrice] = useState<number>(0)
 
@@ -33,7 +34,7 @@ const CartItems = ({ items, selectedCurrency, updateQuantity }: CartItemsProps) 
                 {
                     items.map(({ quantity, product }: CartItemType, index: number) => (
                         <Box key={`cart_items_${index}`} background="white" rounded="xs">
-                            <CartItem updateQuantity={updateQuantity} quantity={quantity} product={product} selectedCurrency={selectedCurrency} />
+                            <CartItem  removeItemFromCart={ removeItemFromCart} updateItemQuantity={updateItemQuantity} quantity={quantity} product={product} selectedCurrency={selectedCurrency} />
                         </Box>
                     ))
                 }

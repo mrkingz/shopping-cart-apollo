@@ -1,19 +1,34 @@
-import { Flex, Stack, Text, ButtonGroup, Button, Divider, Box, Image } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Flex, Image, Stack, Text } from '@chakra-ui/react';
+import { FiMinus, FiPlus } from 'react-icons/fi';
+import { MdClose } from 'react-icons/md';
 import { ProductType } from "../../@types";
-import { FiPlus, FiMinus, } from 'react-icons/fi'
-import { MdClose } from 'react-icons/md'
-import CurrencySymbol from '../CurrencySymbol'
+import { getColor } from '../../lib';
+import CurrencySymbol from '../CurrencySymbol';
 
 export type CartItemProps = {
     quantity: number
     product: ProductType
     selectedCurrency: string
-    updateQuantity: (product: ProductType, update?: number) => void
+    removeItemFromCart: (id: number) => void
+    updateItemQuantity: (product: ProductType, update?: number) => void
 }
 
 const CartItem = (props: CartItemProps) => {
 
-    const { updateQuantity, quantity, selectedCurrency, product: { id, title, price, image_url }} = props
+    const {  
+        removeItemFromCart, updateItemQuantity, quantity, selectedCurrency, 
+        product: { id, title, price, image_url }
+    } = props
+
+    const buttonStyle = () => ({
+        cursor: 'pointer',
+        // _hover: { background: 'transparent' },
+        // _focus: { outline: 'none', background: 'transparent' },
+        // background: 'transparent',
+        py: 1,
+        px: 2,
+        size:'xs'
+    })
 
     return (
         <Stack flex={8} direction="row" justify="space-between" >
@@ -21,12 +36,12 @@ const CartItem = (props: CartItemProps) => {
                 <Text fontSize={12}>{title}</Text>
 
                 <Stack direction="row" justify="space-between">
-                    <ButtonGroup border={`1px solid grey`} rounded="sm" alignItems="center" spacing={1} >
-                        <Button size="xs" background="transparent" onClick={() => updateQuantity(props.product, -1)}><FiMinus size={10} /></Button>
+                    <ButtonGroup border={`1px solid ${getColor('grey-500')}`} rounded="sm" alignItems="center" spacing={1} >
+                        <Box {...buttonStyle()} onClick={() => updateItemQuantity(props.product, -1)}><FiMinus size={10} /></Box>
                         <Box>
                             <Text fontSize={10}>{quantity}</Text>
                         </Box>
-                        <Button size="xs" background="transparent" onClick={() => updateQuantity(props.product, 1)}><FiPlus size={10} /></Button>
+                        <Box {...buttonStyle()} onClick={() => updateItemQuantity(props.product, 1)}><FiPlus size={10} /></Box>
                     </ButtonGroup>
 
                     <Stack spacing={.5} direction="row">
@@ -36,10 +51,10 @@ const CartItem = (props: CartItemProps) => {
                 </Stack>
             </Stack>
 
-            <Stack flex={2} background="grey"  padding={2}>
+            <Stack flex={2} background={getColor('grey-200')}  padding={2}>
                 <Flex justify="flex-end">
-                    <Box cursor="pointer">
-                        <MdClose size={10} color="red" />
+                    <Box cursor="pointer" onClick={() =>  removeItemFromCart(id)}>
+                        <MdClose size={10} fontWeight={600} color={getColor('grey-600')} />
                     </Box>
                 </Flex>
                 <Stack>

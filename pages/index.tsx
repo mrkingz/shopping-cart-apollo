@@ -1,8 +1,9 @@
-import { Stack, Text, Box, useDisclosure } from '@chakra-ui/react'
+import { Box, Stack } from '@chakra-ui/react'
+import { useState } from 'react'
 import { CartItemType, ProductType } from '../@types'
-import { AppDrawer, Products, NavBar, Cart } from '../components'
+import { getColor } from '../lib'
+import { AppDrawer, Cart, NavBar, Products } from '../components'
 
-import { useState, useMemo } from 'react'
 
 const Index = () => {
 
@@ -49,7 +50,11 @@ const Index = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>('NGN')
   const [currencies, setCurrencies] = useState<string[]>(currencyList)
 
-  const updateQuantity = (product: ProductType, update?: number) => {
+  const removeItemFromCart = (id: number) => {
+    setCartItems(cartItems.filter(({ product }) => id !== product.id)) 
+  }
+
+  const updateItemQuantity = (product: ProductType, update?: number) => {
 
     // Check if product exist in the cart
     const index = cartItems.findIndex(({ product: { id }}) => id === product.id)
@@ -77,9 +82,9 @@ const Index = () => {
       <Box h="10rem" background="white">
 
       </Box>
-      <Stack px={[4, 10]} py={8} background="lightgrey" minHeight="100vh">
+      <Stack px={[4, 10]} py={8} background={getColor('grey-200')} minHeight="100vh">
         <Box>
-          <Products products={products} addProductToCart={updateQuantity}/>
+          <Products products={products} addProductToCart={updateItemQuantity}/>
         </Box>
 
         <AppDrawer 
@@ -89,7 +94,7 @@ const Index = () => {
           isOpen={isOpen} 
           onClose={() => setIsOpen(() => !isOpen)}
         > 
-          <Cart selectedCurrency={selectedCurrency} items={cartItems} updateQuantity={updateQuantity}/>
+          <Cart removeItemFromCart={removeItemFromCart} selectedCurrency={selectedCurrency} items={cartItems} updateItemQuantity={updateItemQuantity}/>
         </AppDrawer>
       </Stack>
     </Box>
