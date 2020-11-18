@@ -1,63 +1,37 @@
 import { Box, Stack } from '@chakra-ui/react'
 import { useState } from 'react'
 import { CartItemType, ProductType } from '../@types'
-import { getColor } from '../lib'
 import { AppDrawer, Cart, NavBar, Products } from '../components'
+import { getColor } from '../lib'
+import { useQuery, gql } from '@apollo/client';
+
+
+const FETCH_CURRENCIES = gql`query {
+  currency
+}`;
 
 
 const Index = () => {
 
-  const products: ProductType[] = [
-    {
-      id: 1,
-      title: 'Cream',
-      image_url: '',
-      price: 500,
-      product_options: [{
-        title: '',
-        prefix: '',
-        suffix: ''
-      }]
-    },
-    {
-      id: 2,
-      title: 'Body Cream',
-      image_url: '',
-      price: 800,
-      product_options: [{
-        title: '',
-        prefix: '',
-        suffix: ''
-      }]
-    },
-    {
-      id: 3,
-      title: 'Tooth Brush',
-      image_url: '',
-      price: 200,
-      product_options: [{
-        title: '',
-        prefix: '',
-        suffix: ''
-      }]
-    }
-  ]
-
-  const currencyList = ['NGN', 'USD', 'GBP']
-
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [cartItems, setCartItems] = useState<CartItemType[]>([])
   const [selectedCurrency, setSelectedCurrency] = useState<string>('NGN')
-  const [currencies, setCurrencies] = useState<string[]>(currencyList)
+
+  const { loading, error, data } = useQuery(FETCH_CURRENCIES)
+
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+
 
   const removeItemFromCart = (id: number) => {
     setCartItems(cartItems.filter(({ product }) => id !== product.id)) 
   }
 
-  const updateItemQuantity = (product: ProductType, update?: number) => {
-
+  const addItemToCart = (product: ProductType, update?: number) => {
     // Check if product exist in the cart
-    const index = cartItems.findIndex(({ product: { id }}) => id === product.id)
+    const index = cartItems.findIndex(({ product: { id }}) => product.id === id)
+
     if (index > -1) {
       const items = [...cartItems]
       items[index].quantity += update || 1 // increment/decrement quantity
@@ -68,7 +42,7 @@ const Index = () => {
 
       setCartItems(items)
     } else {
-      setCartItems(() => [...cartItems, { product, currency: selectedCurrency,  quantity: 1 }])
+      setCartItems([...cartItems, { product, quantity: 1 }])
     }
 
   }
@@ -84,17 +58,17 @@ const Index = () => {
       </Box>
       <Stack px={[4, 10]} py={8} background={getColor('grey-200')} minHeight="100vh">
         <Box>
-          <Products products={products} addProductToCart={updateItemQuantity}/>
+          <Products addProductToCart={addItemToCart}/>
         </Box>
 
         <AppDrawer 
           selectedCurrency={selectedCurrency} 
           selectCurrency={setSelectedCurrency} 
-          currencies={currencies} 
+          currencies={data.currency} 
           isOpen={isOpen} 
           onClose={() => setIsOpen(() => !isOpen)}
         > 
-          <Cart removeItemFromCart={removeItemFromCart} selectedCurrency={selectedCurrency} items={cartItems} updateItemQuantity={updateItemQuantity}/>
+          <Cart removeItemFromCart={removeItemFromCart} selectedCurrency={selectedCurrency} items={cartItems} addItemToCart={addItemToCart}/>
         </AppDrawer>
       </Stack>
     </Box>

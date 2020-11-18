@@ -13,10 +13,10 @@ const Product = (props:  ProductProps) => {
     const { addToCart, product: { image_url, title, price, id } } = props
 
     return (
-        <Stack align="center">
-            <Image src={image_url} />
+        <Stack align="center" spacing={4}>
+            <Image src={image_url} width={12} height={12}/>
 
-            <Stack spacing={4} textAlign="center">
+            <Stack textAlign="center" align="center">
                 <Text>
                     {title}
                 </Text>

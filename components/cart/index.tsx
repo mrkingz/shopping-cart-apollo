@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Text } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { CartItemType, ProductType } from '../../@types'
 import CartItem from './CartItem'
 import CurrencySymbol from '../CurrencySymbol'
@@ -8,11 +8,11 @@ import CurrencySymbol from '../CurrencySymbol'
 export type CartItemsProps = {
     items: CartItemType[]
     selectedCurrency: string
-     removeItemFromCart: (id: number) => void
-    updateItemQuantity: (product: ProductType, update?: number) => void
+    removeItemFromCart: (id: number) => void
+    addItemToCart: (product: ProductType, update?: number) => void
 }
 
-const CartItems = ({ items, selectedCurrency,  removeItemFromCart, updateItemQuantity }: CartItemsProps) => {
+const CartItems = ({ items, selectedCurrency,  removeItemFromCart, addItemToCart }: CartItemsProps) => {
 
     const [totalPrice, setTotalPrice] = useState<number>(0)
 
@@ -34,7 +34,7 @@ const CartItems = ({ items, selectedCurrency,  removeItemFromCart, updateItemQua
                 {
                     items.map(({ quantity, product }: CartItemType, index: number) => (
                         <Box key={`cart_items_${index}`} background="white" rounded="xs">
-                            <CartItem  removeItemFromCart={ removeItemFromCart} updateItemQuantity={updateItemQuantity} quantity={quantity} product={product} selectedCurrency={selectedCurrency} />
+                            <CartItem  removeItemFromCart={ removeItemFromCart} addItemToCart={addItemToCart} quantity={quantity} product={product} selectedCurrency={selectedCurrency} />
                         </Box>
                     ))
                 }
@@ -68,4 +68,4 @@ const CartItems = ({ items, selectedCurrency,  removeItemFromCart, updateItemQua
     )
 } 
 
-export default CartItems
+export default memo(CartItems)

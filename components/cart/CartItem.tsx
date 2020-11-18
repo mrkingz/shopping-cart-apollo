@@ -10,21 +10,18 @@ export type CartItemProps = {
     product: ProductType
     selectedCurrency: string
     removeItemFromCart: (id: number) => void
-    updateItemQuantity: (product: ProductType, update?: number) => void
+    addItemToCart: (product: ProductType, update?: number) => void
 }
 
 const CartItem = (props: CartItemProps) => {
 
     const {  
-        removeItemFromCart, updateItemQuantity, quantity, selectedCurrency, 
+        removeItemFromCart, addItemToCart, quantity, selectedCurrency, 
         product: { id, title, price, image_url }
     } = props
 
     const buttonStyle = () => ({
         cursor: 'pointer',
-        // _hover: { background: 'transparent' },
-        // _focus: { outline: 'none', background: 'transparent' },
-        // background: 'transparent',
         py: 1,
         px: 2,
         size:'xs'
@@ -37,11 +34,11 @@ const CartItem = (props: CartItemProps) => {
 
                 <Stack direction="row" justify="space-between">
                     <ButtonGroup border={`1px solid ${getColor('grey-500')}`} rounded="sm" alignItems="center" spacing={1} >
-                        <Box {...buttonStyle()} onClick={() => updateItemQuantity(props.product, -1)}><FiMinus size={10} /></Box>
+                        <Box {...buttonStyle()} onClick={() => addItemToCart(props.product, -1)}><FiMinus size={10} /></Box>
                         <Box>
                             <Text fontSize={10}>{quantity}</Text>
                         </Box>
-                        <Box {...buttonStyle()} onClick={() => updateItemQuantity(props.product, 1)}><FiPlus size={10} /></Box>
+                        <Box {...buttonStyle()} onClick={() => addItemToCart(props.product, 1)}><FiPlus size={10} /></Box>
                     </ButtonGroup>
 
                     <Stack spacing={.5} direction="row">
@@ -57,8 +54,8 @@ const CartItem = (props: CartItemProps) => {
                         <MdClose size={10} fontWeight={600} color={getColor('grey-600')} />
                     </Box>
                 </Flex>
-                <Stack>
-                    <Image src={image_url} />
+                <Stack align="center" justify="center">
+                    <Image src={image_url} width={6} height={6} />
                 </Stack>
             </Stack>
         </Stack>
