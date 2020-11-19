@@ -13,7 +13,7 @@ export default class CadawadaApp extends Document {
 					<meta name="robots" content="all" />
 					<meta
 						name="Description"
-						content="Simple shopping cart implementation"
+						content="Simple shopping cart implementation with React and Apollo GraphQL"
 					/>
 				</Head>
 				<body className="fade-in">
