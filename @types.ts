@@ -24,17 +24,19 @@ export type CartItemType = {
 }
 
 export type ColorType = {
-	'neutral-100': string,
-	'neutral-200': string,
-	'neutral-300': string,
+	'neutral-100': string
+	'neutral-200': string
+	'neutral-300': string
 
-	'grey-100': string,
-	'grey-200': string,
-	'grey-300': string,
-	'grey-400': string,
-	'grey-500': string,
-	'grey-600': string,
-	'grey-700': string,
-	'grey-800': string,
-	'grey-900': string
+	'grey-100': string
+	'grey-200': string
+	'grey-300': string
+	'grey-400': string
+	'grey-500': string
+	'grey-600': string
+	'grey-700': string
+	'grey-800': string
+    'grey-900': string
+    
+    'red-900': string
 }

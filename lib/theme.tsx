@@ -15,6 +15,8 @@ const colors: ColorType = {
 	'grey-700': '#2D3748',
 	'grey-800': '#718096',
 	'grey-900': '#1A202C',
+
+	'red-900': '#BF2600'
 }
 
 const getColor = (color: keyof ColorType) => {

@@ -131,7 +131,7 @@ const CurrencySymbol = ({
 	}
 	return (
 		<Text {...others}>
-			{currencySymbols[code].html}
+			{currencySymbols[code]?.html || code}
 		</Text>
 	)
 }

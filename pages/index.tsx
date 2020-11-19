@@ -1,4 +1,4 @@
-import { Box, Stack } from '@chakra-ui/react'
+import { Box, Stack, Select, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { CartItemType, ProductType } from '../@types'
 import { AppDrawer, Cart, NavBar, Products } from '../components'
@@ -53,9 +53,19 @@ const Index = () => {
         <NavBar cartItemsCount={cartItems.length} openDrawer={() => setIsOpen(() => !isOpen)} />
       </Box>
 
-      <Box h="10rem" background="white">
+      <Stack px={[4, 20]} py={8} align="flex-end" justify="space-between" direction="row" background="white">
+        <Stack spacing={2}>
+          <Text fontWeight={600} fontSize={32}>All Products</Text>
+          <Text fontSize={12}>A 360<sup>o</sup> look at Lumin</Text>
+        </Stack>
 
-      </Box>
+        <Box>
+          <Select minWidth={48} placeholder="Filter">
+            <option></option>
+          </Select>
+        </Box>
+      </Stack>
+
       <Stack px={[4, 10]} py={8} background={getColor('grey-200')} minHeight="100vh">
         <Box>
           <Products addProductToCart={addItemToCart}/>

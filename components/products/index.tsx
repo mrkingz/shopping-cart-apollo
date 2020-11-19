@@ -1,8 +1,9 @@
 import {Stack, Box, SimpleGrid, useMediaQuery } from '@chakra-ui/react'
 import { ProductType } from '../../@types'
 import Product from './Product'
-import { useMemo } from 'react'
+import { memo } from 'react'
 import { useQuery, gql } from '@apollo/client';
+import { getColor } from '../../lib';
 
 
 export type ProductListProps = {
@@ -34,7 +35,7 @@ const Products = (props: ProductListProps) => {
         <SimpleGrid columns={isLargerThan768 ? 3 : 2} spacing={8}>
             {
                 data.products.map((product: ProductType, index: number) => (
-                        <Box key={`products_${index}`}> 
+                        <Box key={`products_${index}`} borderBottom={`1p solid ${getColor('grey-600')}`}> 
                             <Product product={product} addToCart={() => addProductToCart(product)} />
                         </Box>
                 ))
@@ -43,4 +44,4 @@ const Products = (props: ProductListProps) => {
     )
 }
 
-export default Products
+export default memo(Products)

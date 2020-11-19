@@ -17,16 +17,16 @@ const Product = (props:  ProductProps) => {
             <Image src={image_url} width={12} height={12}/>
 
             <Stack textAlign="center" align="center">
-                <Text>
+                <Text fontSize={16} fontWeight={600}>
                     {title}
                 </Text>
 
                 <Stack direction="row" spacing={0.5}>
-                    <Text paddingRight={1}>From</Text>
+                    <Text fontSize={12} fontWeight={500} paddingRight={1}>From</Text>
                     <Box>
-                        <CurrencySymbol code='USD' />
+                        <CurrencySymbol fontSize={12} fontWeight={500} code='USD' />
                     </Box>
-                    <Text>{price}</Text>
+                    <Text fontSize={12} fontWeight={500}>{price}</Text>
                 </Stack>
             </Stack>
                 
