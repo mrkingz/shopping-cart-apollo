@@ -1,30 +1,30 @@
-import {Stack, Box, SimpleGrid, useMediaQuery } from '@chakra-ui/react'
-import { ProductType } from '../../@types'
-import Product from './Product'
-import { memo } from 'react'
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+import { Box, SimpleGrid, useMediaQuery } from '@chakra-ui/react';
+import { memo } from 'react';
+import { ProductType } from '../../@types';
 import { getColor } from '../../lib';
+import Product from './Product';
 
 
 export type ProductListProps = {
-    // products: ProductType[]
+    selectedCurrency: string
     addProductToCart: (product: ProductType) => void
 }
 
-const FETCH_PRODUCTS = gql`query {
+const FETCH_PRODUCTS = (currency: string) => gql`query {
     products {
       id
       title
       image_url
-      price(currency: USD)
+      price(currency: ${currency})
     }
   }`;
 
 const Products = (props: ProductListProps) => {
-    const { addProductToCart } = props
+    const { addProductToCart, selectedCurrency } = props
 
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)")
-    const { loading, error, data } = useQuery(FETCH_PRODUCTS)
+    const { loading, error, data } = useQuery(FETCH_PRODUCTS(selectedCurrency))
 
     
     if (loading) return <p>Loading...</p>;
@@ -36,7 +36,7 @@ const Products = (props: ProductListProps) => {
             {
                 data.products.map((product: ProductType, index: number) => (
                         <Box key={`products_${index}`} borderBottom={`1p solid ${getColor('grey-600')}`}> 
-                            <Product product={product} addToCart={() => addProductToCart(product)} />
+                            <Product product={product} addToCart={() => addProductToCart(product)} selectedCurrency={selectedCurrency} />
                         </Box>
                 ))
             }

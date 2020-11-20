@@ -1,5 +1,5 @@
 import { Box, Stack, Select, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CartItemType, ProductType } from '../@types'
 import { AppDrawer, Cart, NavBar, Products } from '../components'
 import { getColor } from '../lib'
@@ -19,10 +19,14 @@ const Index = () => {
 
   const { loading, error, data } = useQuery(FETCH_CURRENCIES)
 
+  useEffect(() => {
+    setIsOpen(cartItems.length > 0)
+  }, [cartItems])
+
+
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
-
 
   const removeItemFromCart = (id: number) => {
     setCartItems(cartItems.filter(({ product }) => id !== product.id)) 
@@ -60,7 +64,7 @@ const Index = () => {
         </Stack>
 
         <Box>
-          <Select minWidth={48} placeholder="Filter">
+          <Select minWidth={48} placeholder="Filter kg">
             <option></option>
           </Select>
         </Box>
@@ -68,7 +72,7 @@ const Index = () => {
 
       <Stack px={[4, 10]} py={8} background={getColor('grey-200')} minHeight="100vh">
         <Box>
-          <Products addProductToCart={addItemToCart}/>
+          <Products addProductToCart={addItemToCart} selectedCurrency={selectedCurrency} />
         </Box>
 
         <AppDrawer 

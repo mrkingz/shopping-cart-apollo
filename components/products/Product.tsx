@@ -5,12 +5,13 @@ import CurrencySymbol from '../CurrencySymbol'
 
 export type ProductProps = {
     addToCart: () => void
+    selectedCurrency? : string
     product: ProductType
 }
 
 const Product = (props:  ProductProps) => {
 
-    const { addToCart, product: { image_url, title, price, id } } = props
+    const { addToCart, selectedCurrency, product: { image_url, title, price, id } } = props
 
     return (
         <Stack align="center" spacing={4}>
@@ -24,7 +25,7 @@ const Product = (props:  ProductProps) => {
                 <Stack direction="row" spacing={0.5}>
                     <Text fontSize={12} fontWeight={500} paddingRight={1}>From</Text>
                     <Box>
-                        <CurrencySymbol fontSize={12} fontWeight={500} code='USD' />
+                        <CurrencySymbol fontSize={12} fontWeight={500} code={selectedCurrency || 'NGN'} />
                     </Box>
                     <Text fontSize={12} fontWeight={500}>{price}</Text>
                 </Stack>
